@@ -6,7 +6,7 @@ PERIOD = '1y'
 RISK = 0.02
 SPAN = (3, 5, 8, 13, 21)
 
-def run() -> pd.DataFrame:
+def run(num) -> pd.DataFrame:
     # util
     floor = lambda x: int(x * 100) / 100
     concat = lambda x, y: pd.concat([x, y], axis=1)
@@ -34,12 +34,11 @@ def run() -> pd.DataFrame:
     score = (scoring(sma) + scoring(ema)).rename('score')
     # print(score)
     # unit
-    num = st.number_input('투자단위', value=400)
-    unit = (num * (RISK / aatr)).apply(lambda x: min(1, x)) * score / len(SPAN)).div(2).apply(int).rename('unit')
+    unit = (num * (RISK / aatr).apply(lambda x: min(1, x)) * score / len(SPAN)).div(2).apply(int).rename('unit')
     # print(score)
     screener = pd.concat([avg, lo, loc, unit, score], axis=1)\
         [['unit', 'price', 'loc', 'lo']]\
-        .query('unit > price')
+        .query('unit > price')\
         .sort_values('unit', ascending=False)
     print(screener)
     print(f'합계: ${screener.unit.sum()} ({len(screener)} / {len(tickers)})')
