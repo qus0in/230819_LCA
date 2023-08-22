@@ -4,7 +4,7 @@ from main import run
 if __name__ == '__main__':
     st.set_page_config('레버리지 코스트 애버리징', '🐱')
 
-    num = st.number_input('투자단위', value=400)
+    num = st.number_input('투자단위', value=200)
 
     with st.spinner('🏃 불러오는 중'):
         screener = run(num)

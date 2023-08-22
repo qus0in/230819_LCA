@@ -26,7 +26,7 @@ def run(num) -> pd.DataFrame:
     aatr = ((th - tl).ewm(max(SPAN)).mean() / price.Close).iloc[-1].rename('aatr').apply(floor)
     # screener
     avg = pd.read_csv(TICKERS).set_index('TICKER').join(close)\
-        .apply(lambda x: x.AVG if not pd.isna(x.AVG) else x.close, axis=1).rename('price')
+        .apply(lambda x: x.AVG if not pd.isna(x.AVG) else x.close, axis=1).rename('price').apply(lambda x: int(x * 100) / 100)
     # print(avg)
     loc = ((1+aatr) * avg).rename('loc').apply(floor)
     lo = ((1+aatr*2) * avg).rename('lo').apply(floor)
@@ -37,8 +37,8 @@ def run(num) -> pd.DataFrame:
     unit = (num * (RISK / aatr).apply(lambda x: min(1, x)) * score / len(SPAN)).div(2).apply(int).rename('unit')
     # print(score)
     screener = pd.concat([avg, lo, loc, unit, score], axis=1)\
+        .query('score > 7')\
         [['unit', 'price', 'loc', 'lo']]\
-        .query('unit > price')\
         .sort_values('unit', ascending=False)
     print(screener)
     print(f'합계: ${screener.unit.sum()} ({len(screener)} / {len(tickers)})')
