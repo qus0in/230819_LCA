@@ -35,7 +35,7 @@ def run() -> pd.DataFrame:
     # print(score)
     # unit
     num = st.number_input('투자단위', value=400)
-    unit = (num * (RISK / aatr).apply(lambda x: min(1, x)) * score / len(SPAN)).div(2).apply(int).rename('unit')
+    unit = (num * (RISK / aatr)).apply(lambda x: min(1, x)) * score / len(SPAN)).div(2).apply(int).rename('unit')
     # print(score)
     screener = pd.concat([avg, lo, loc, unit, score], axis=1)\
         [['unit', 'price', 'loc', 'lo']]\
