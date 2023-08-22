@@ -34,11 +34,12 @@ def run() -> pd.DataFrame:
     score = (scoring(sma) + scoring(ema)).rename('score')
     # print(score)
     # unit
-    unit = (close * (RISK / aatr).apply(lambda x: min(1, x)) * score).div(2).apply(int).rename('unit')
+    num = st.number_input('투자단위', value=400)
+    unit = (num * (RISK / aatr).apply(lambda x: min(1, x)) * score / len(SPAN)).div(2).apply(int).rename('unit')
     # print(score)
     screener = pd.concat([avg, lo, loc, unit, score], axis=1)\
-        .query('unit > price * 2.2')\
         [['unit', 'price', 'loc', 'lo']]\
+        .query('unit > price')
         .sort_values('unit', ascending=False)
     print(screener)
     print(f'합계: ${screener.unit.sum()} ({len(screener)} / {len(tickers)})')
