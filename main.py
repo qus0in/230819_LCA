@@ -23,7 +23,7 @@ def get_tickers_from_db():
     return [el.get('TICKER').get('title')[0].get('plain_text')\
             for el in get_data_from_db()]
 
-@st.cache_data
+# @st.cache_data
 def get_prices_from_db():
     return [el.get('평단가').get('number') or 0\
             for el in get_data_from_db()]
