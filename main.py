@@ -3,7 +3,6 @@ import pandas as pd
 from notion import TICKER_DB, get_notion_db
 import streamlit as st
 
-TICKERS = 'TICKER.csv'
 PERIOD = '1y'
 RISK = 0.02
 SPAN = (3, 5, 8, 13, 21)
@@ -61,6 +60,7 @@ def run(num) -> pd.DataFrame:
         .query('score > 7')\
         [['unit', 'price', 'loc', 'lo']]\
         .sort_values('unit', ascending=False)
+    
     print(screener)
     print(f'합계: ${screener.unit.sum()} ({len(screener)} / {len(tickers)})')
     return screener
