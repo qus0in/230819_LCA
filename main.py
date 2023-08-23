@@ -63,4 +63,4 @@ def run(num) -> pd.DataFrame:
     return screener
 
 if __name__ == '__main__':
-    run()
+    run(200)
