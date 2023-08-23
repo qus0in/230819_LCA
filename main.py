@@ -14,11 +14,9 @@ def concat(x, y):
     return pd.concat([x, y], axis=1)
 
 # Data
-@st.cache_data
 def get_data_from_db():
     return get_notion_db(TICKER_DB)
 
-@st.cache_data
 def get_tickers_from_db():
     return [el.get('TICKER').get('title')[0].get('plain_text')\
             for el in get_data_from_db()]
