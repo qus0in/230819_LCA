@@ -1,5 +1,6 @@
 import os
 import requests
+import pandas as pd
 
 TICKER_DB = 'a5772abe9c524e2692833bb417396e32'
 OPTION_DB = '0325e29b468a499a9b8880eca7f3893e'
@@ -19,4 +20,15 @@ def get_notion_db(db_id):
     return [el['properties'] for el in res.json().get('results')]
 
 if __name__ == '__main__':
-    print(get_notion_db(OPTION_DB))
+    # print(get_notion_db(OPTION_DB))
+    # print(get_notion_db(OPTION_DB)[0].get('VALUE').get('number'))
+    # print(get_notion_db(TICKER_DB))
+    # print([el.get('TICKER').get('title')[0].get('plain_text') for el in get_notion_db(TICKER_DB)])
+    # data = get_notion_db(TICKER_DB)
+    # ticker_col = [el.get('TICKER').get('title')[0].get('plain_text') for el in data]
+    # # print(ticker_col)
+    # price_col = [el.get('평단가').get('number') or 0 for el in data]
+    # # print(price_col)
+    # df = pd.DataFrame({'TICKER': ticker_col, 'AVG': price_col})
+    # print(df)
+    pass
